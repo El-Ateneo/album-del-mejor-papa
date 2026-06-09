@@ -164,7 +164,7 @@
         }
 
         .file-counter.ready { color: #A9DFBF; } 
-        .file-counter.error { color: #F5B7B1; } 
+        .file-counter.error { color: #FFE066; } 
 
         .btn-clear {
             background-color: rgba(235, 95, 95, 0.8); color: white; border: none;
@@ -173,41 +173,50 @@
         }
         .btn-clear:hover { background-color: rgb(215, 75, 75); }
 
-        /* --- ESTILOS DEL MOSAICO DE IMÁGENES --- */
+        /* --- REDISEÑO DEL MOSAICO EN CUADRÍCULA PROFESIONAL --- */
         .preview-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(3, 1fr); /* 3 columnas perfectas en mobile */
+            gap: 12px;
             margin-top: 15px;
-            max-height: 220px;
+            max-height: 310px; /* Un poco más alto para ver mejor las fotos */
             overflow-y: auto;
-            padding: 8px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            background-color: rgba(13, 35, 58, 0.6);
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .preview-item {
             position: relative;
-            aspect-ratio: 1;
-            border-radius: 6px;
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 2px solid var(--blanco);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .preview-item:hover {
+            transform: scale(1.02);
         }
 
         .preview-item img {
             width: 100%; height: 100%; object-fit: cover;
         }
 
+        /* Botón eliminar X más grande y estético */
         .preview-item .btn-remove {
             position: absolute;
-            top: 2px; right: 2px;
-            background-color: rgba(235, 95, 95, 0.9);
-            color: white; border: none;
-            width: 18px; height: 18px;
-            font-size: 10px; font-weight: bold;
+            top: 4px; right: 4px;
+            background-color: rgba(235, 95, 95, 0.95);
+            color: white; border: 1px solid white;
+            width: 24px; height: 24px;
+            font-size: 11px; font-weight: bold;
             border-radius: 50%; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         .btn-submit {
@@ -221,18 +230,35 @@
         .btn-submit:active { transform: translateY(2px); border-bottom-width: 2px; }
         .btn-submit:disabled { background: #CCCCCC !important; border-bottom-color: #999999 !important; color: #666666; cursor: not-allowed; }
 
+        /* --- MODAL DE CARGA CON PROGRESO REAL --- */
         .overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85); z-index: 1000; flex-direction: column;
-            justify-content: center; align-items: center; color: white; padding: 20px; text-align: center;
+            background-color: rgba(0,0,0,0.9); z-index: 1000; flex-direction: column;
+            justify-content: center; align-items: center; color: white; padding: 25px; text-align: center;
         }
 
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.2); border-radius: 50%;
-            border-top-color: var(--dorado); animation: spin 1s ease-in-out infinite; margin-bottom: 20px;
+        /* Contenedor de la barra de progreso */
+        .progress-container {
+            width: 100%;
+            max-width: 350px;
+            background-color: rgba(255, 255, 255, 0.2);
+            height: 18px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Barra interna animada con los colores de la app */
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--celeste), var(--dorado));
+            border-radius: 10px;
+            transition: width 0.4s ease-out; /* Animación fluida de llenado */
+            box-shadow: 0 0 10px var(--dorado);
+        }
 
         .alert-box {
             background: linear-gradient(135deg, #0d233a, #153556); padding: 25px;
@@ -257,7 +283,7 @@
     <div class="container">
         <div class="header">
             <h1>Álbum Oficial del Mejor Papá</h1>
-            <p>Subí tus datos y las 30 fotos para completar el álbum</p>
+            <p>Subí tus datos y las fotos para completar el álbum</p>
             <div class="badge">
                 <img src="copa.png" alt="Copa" class="badge-icon">
                 MI PAPÁ ES UNA LEYENDA
@@ -281,11 +307,11 @@
             </div>
 
             <div class="form-group">
-                <label>Fotos para el Álbum (Deben ser exactamente 30)</label>
+                <label>Fotos para el Álbum (Máximo 30)</label>
                 <div class="file-drop-area">
                     <span class="upload-icon">📸</span>
                     <span style="font-weight: 700; color: #0d233a;">Seleccionar imágenes</span>
-                    <span style="font-size: 12px; color: rgba(13, 35, 58, 0.85); margin-top: 4px; font-weight: 600;">Podés elegirlas en varias tandas</span>
+                    <span style="font-size: 12px; color: rgba(13, 35, 58, 0.85); margin-top: 4px; font-weight: 600;">Podés agregarlas de a tandas</span>
                     <input type="file" id="fotos" multiple accept="image/jpeg, image/png, image/webp">
                 </div>
                 
@@ -302,9 +328,15 @@
     </div>
 
     <div id="loadingOverlay" class="overlay">
-        <div class="spinner"></div>
-        <h2 id="loadingText">Subiendo archivos...</h2>
-        <p style="font-size: 14px; opacity: 0.8; max-width: 400px; margin-top: 8px;">Por favor, no cierres esta ventana. Estamos subiendo tus fotos una por una para asegurar una conexión estable y sin cortes.</p>
+        <h2 id="loadingText" style="font-size: 22px; color: #FFE066;">Iniciando subida...</h2>
+        
+        <div class="progress-container">
+            <div id="realProgressBar" class="progress-bar"></div>
+        </div>
+        
+        <p style="font-size: 14px; opacity: 0.9; max-width: 400px; line-height: 1.4;">
+            Por favor, mantené esta ventana abierta. Estamos enviando tus imágenes de manera segura a Google Drive.
+        </p>
     </div>
 
     <div id="customAlert" class="overlay" style="background-color: rgba(0,0,0,0.75);">
@@ -331,7 +363,7 @@
             confettiBag.appendChild(papelito);
         }
 
-        // --- NUEVA LÓGICA CON MOSAICO Y CONTROL DE DUPLICADOS ---
+        // --- LÓGICA DE ALMACENAMIENTO Y CONTROL DE FOTOS ---
         let listaFotosAcumuladas = []; 
         
         const fileInput = document.getElementById('fotos');
@@ -341,10 +373,12 @@
         const submitBtn = document.getElementById('submitBtn');
         const previewGrid = document.getElementById('previewGrid');
         const form = document.getElementById('posterForm');
+        
         const overlay = document.getElementById('loadingOverlay');
         const loadingText = document.getElementById('loadingText');
+        const realProgressBar = document.getElementById('realProgressBar');
 
-        // URL de tu Web App de Google Apps Script
+        // URL fija de tu Web App de Google Apps Script
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKYm5VbW8hiD1omR8eLHCtsTa7cRIq2V5VdWiVh6q36tOG92r9VWKBEMj36fOudC8G/exec"; 
 
         function mostrarAlerta(titulo, mensaje) {
@@ -365,14 +399,12 @@
             });
 
             if (nuevosArchivos.length !== imagenesValidas.length) {
-                mostrarAlerta('Formato inválido', '⚠️ Se descartaron archivos no permitidos. Solo podés subir fotos (JPG, PNG, WEBP).');
+                mostrarAlerta('Formato inválido', '⚠️ Se descartaron archivos no permitidos. Solo podés subir fotos en formato de imagen (JPG, PNG o WEBP).');
             }
 
             let repetidasContador = 0;
 
-            // Procesar cada imagen controlando que no esté repetida
             imagenesValidas.forEach(file => {
-                // Verificar duplicado por nombre exacto y tamaño en bytes
                 const yaExiste = listaFotosAcumuladas.some(foto => foto.name === file.name && foto.size === file.size);
                 
                 if (yaExiste) {
@@ -383,21 +415,18 @@
             });
 
             if (repetidasContador > 0) {
-                mostrarAlerta('Fotos repetidas', `Ignoramos ${repetidasContador} foto(s) porque ya las habías seleccionado en una tanda anterior.`);
+                mostrarAlerta('Fotos repetidas', `Ignoramos ${repetidasContador} foto(s) porque ya figuraban en la lista.`);
             }
 
-            if (listaFotosAcumuladas.length >= 30 && imagenesValidas.length > 0 && repetidasContador === 0) {
-                if(listaFotosAcumuladas.length === 30 && (listaFotosAcumuladas.length + (imagenesValidas.length - repetidasContador) > 30)) {
-                     mostrarAlerta('Límite alcanzado', '¡Ya completaste las 30 fotos necesarias! No podés agregar más.');
-                }
+            if (listaFotosAcumuladas.length === 30 && (listaFotosAcumuladas.length + (imagenesValidas.length - repetidasContador) > 30)) {
+                mostrarAlerta('Límite alcanzado', '¡Llegaste al límite máximo de 30 fotos para el álbum!');
             }
 
-            this.value = ''; // Limpiar el input para la próxima tanda
+            this.value = ''; 
             renderizarMosaico();
             actualizarInterfazContador();
         });
 
-        // Dibuja las miniaturas en pantalla
         function renderizarMosaico() {
             previewGrid.innerHTML = '';
             
@@ -413,14 +442,13 @@
                 item.classList.add('preview-item');
 
                 const img = document.createElement('img');
-                img.src = URL.createObjectURL(file); // Crea una ruta temporal para ver la imagen
+                img.src = URL.createObjectURL(file); 
                 
                 const btnRemove = document.createElement('button');
                 btnRemove.type = 'button';
                 btnRemove.classList.add('btn-remove');
                 btnRemove.textContent = 'X';
                 
-                // Acción para eliminar una foto individual del mosaico
                 btnRemove.addEventListener('click', () => {
                     listaFotosAcumuladas.splice(index, 1);
                     renderizarMosaico();
@@ -443,88 +471,16 @@
             const cantidad = listaFotosAcumuladas.length;
             clearBtn.style.display = cantidad > 0 ? 'inline-block' : 'none';
 
-            if (cantidad === 30) {
-                counterText.textContent = `¡Perfecto! Completaste las 30 fotos correctamente.`;
+            // FLEXIBILIDAD: Se habilita con que haya al menos 1 foto agregada
+            if (cantidad > 0) {
+                counterText.textContent = `Fotos acumuladas: ${cantidad} / 30`;
                 fileCounter.className = "file-counter ready";
                 submitBtn.disabled = false;
             } else {
-                counterText.textContent = `Fotos acumuladas: ${cantidad} / 30`;
+                counterText.textContent = `Fotos acumuladas: 0 / 30`;
                 fileCounter.className = "file-counter error";
                 submitBtn.disabled = true;
             }
         }
 
-        // --- ENVÍO SECUENCIAL PASO A PASO (ANTI-ERRORES DE RED) ---
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            overlay.style.display = 'flex';
-            submitBtn.disabled = true;
-
-            const alumno = document.getElementById('alumno').value;
-            const grado = document.getElementById('grado').value;
-            const tutor = document.getElementById('tutor').value;
-
-            try {
-                // Enviamos las fotos una por una en un bucle ordenado
-                for (let i = 0; i < listaFotosAcumuladas.length; i++) {
-                    loadingText.textContent = `Guardando en Drive: Foto ${i + 1} de 30...`;
-                    
-                    // Convertimos solo una foto a base64
-                    const fotoProcesada = await convertirBase64(listaFotosAcumuladas[i]);
-
-                    // Armamos un paquete individual exclusivo para esta foto
-                    const payloadIndividual = {
-                        alumno: alumno,
-                        grado: grado,
-                        tutor: tutor,
-                        // Le avisamos a Google si es la primera foto para que cree la carpeta, o si es de las siguientes para que solo sume
-                        esPrimeraFoto: i === 0 ? true : false, 
-                        foto: fotoProcesada
-                    };
-
-                    const respuesta = await fetch(WEB_APP_URL, {
-                        method: 'POST',
-                        body: JSON.stringify(payloadIndividual)
-                    });
-                    
-                    if (!respuesta.ok) {
-                        throw new Error("Fallo en la petición HTTP externa.");
-                    }
-                }
-
-                // Si recorrió las 30 con éxito, damos el mensaje final limpio
-                mostrarAlerta('¡Envío Exitoso!', 'Tus datos y las 30 fotos se procesaron y guardaron en Google Drive correctamente de forma segura.');
-                form.reset();
-                listaFotosAcumuladas = [];
-                renderizarMosaico();
-                actualizarInterfazContador();
-
-            } catch (error) {
-                console.error(error);
-                mostrarAlerta(
-                    'Error de Envío', 
-                    'No se pudo completar la transferencia. Asegurate de que la URL de tu Script esté bien configurada y tenga los accesos públicos activos en Google Apps Script.'
-                );
-            } finally {
-                overlay.style.display = 'none';
-                submitBtn.disabled = false;
-            }
-        });
-
-        function convertirBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => {
-                    resolve({
-                        nombre: file.name,
-                        mimeType: file.type,
-                        bytes: reader.result.split(',')[1]
-                    });
-                };
-                reader.onerror = error => reject(error);
-            });
-        }
-    </script>
-</body>
-</html>
+        // --- SUBIDA SECUENCIAL CON 
