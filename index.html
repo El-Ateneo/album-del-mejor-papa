@@ -483,4 +483,83 @@
             }
         }
 
-        // --- SUBIDA SECUENCIAL CON 
+        // --- SUBIDA SECUENCIAL CON ANIMACIÓN DE BARRA DE PROGRESO REAL ---
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Inicializar la barra de carga antes del bucle
+            realProgressBar.style.width = "0%";
+            loadingText.textContent = `Preparando archivos...`;
+            overlay.style.display = 'flex';
+            submitBtn.disabled = true;
+
+            const alumno = document.getElementById('alumno').value;
+            const grado = document.getElementById('grado').value;
+            const tutor = document.getElementById('tutor').value;
+            const totalFotos = listaFotosAcumuladas.length;
+
+            try {
+                for (let i = 0; i < totalFotos; i++) {
+                    // Mensaje real interactivo por cada iteración
+                    loadingText.textContent = `Subiendo foto ${i + 1} de ${totalFotos}...`;
+                    
+                    const fotoProcesada = await convertirBase64(listaFotosAcumuladas[i]);
+
+                    const payloadIndividual = {
+                        alumno: alumno,
+                        grado: grado,
+                        tutor: tutor,
+                        esPrimeraFoto: i === 0 ? true : false, 
+                        foto: fotoProcesada
+                    };
+
+                    const respuesta = await fetch(WEB_APP_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payloadIndividual)
+                    });
+                    
+                    if (!respuesta.ok) {
+                        throw new Error("Error en la respuesta del Script de Google.");
+                    }
+
+                    // CÁLCULO EN TIEMPO REAL: Llenar la barra progresivamente según avanza el bucle
+                    let porcentajeProgreso = ((i + 1) / totalFotos) * 100;
+                    realProgressBar.style.width = `${porcentajeProgreso}%`;
+                }
+
+                // Éxito absoluto al terminar de iterar la lista completa
+                mostrarAlerta('¡Envío Exitoso!', `¡Excelente! Los datos de ${alumno} y sus ${totalFotos} fotos se guardaron de forma segura en Google Drive.`);
+                form.reset();
+                listaFotosAcumuladas = [];
+                renderizarMosaico();
+                actualizarInterfazContador();
+
+            } catch (error) {
+                console.error(error);
+                mostrarAlerta(
+                    'Error de Envío', 
+                    'No se pudo completar la carga de las fotos. Verificá tu señal de internet o que los permisos del Script estén configurados de forma pública.'
+                );
+            } finally {
+                overlay.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+
+        function convertirBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    resolve({
+                        nombre: file.name,
+                        mimeType: file.type,
+                        bytes: reader.result.split(',')[1]
+                    });
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+    </script>
+</body>
+</html>
