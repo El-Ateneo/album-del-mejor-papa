@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Álbum Día del Padre - Mi Papá es una Leyenda</title>
+    <style>
+        :root {
+            --celeste: #75AADB;
+            --dorado: #D4AF37;
+            --oscuro: #1A1A1A;
+            --blanco: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-image: url('fondo.jpg');
+            background-position: center center;
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed;
+            background-color: #0d233a; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Si es una computadora ancha, el fondo se adapta para no romperse */
+        @media (min-width: 1024px) {
+            body {
+                background-size: contain;
+                background-repeat: repeat-x;
+            }
+        }
+
+        /* --- EFECTO LLUVIA DE PAPELITOS (CONFETTI) --- */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; 
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            top: -20px;
+            width: 10px;
+            height: 15px;
+            opacity: 0.85;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                top: -20px;
+            }
+            100% {
+                transform: translateY(105vh) rotate(720deg);
+            }
+        }
+
+        /* --- CONTENEDOR DEL FORMULARIO --- */
+        .container {
+            background-color: rgba(255, 255, 255, 0.96); 
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+            overflow: hidden;
+            border-top: 8px solid var(--celeste);
+            position: relative;
+            z-index: 10; 
+            backdrop-filter: blur(4px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: var(--blanco);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--dorado);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .header .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #FFE066, var(--dorado));
+            color: var(--oscuro);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-top: 12px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Estilo y animación flotante para tu copa vectorizada */
+        .badge-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            animation: flotarCopa 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes flotarCopa {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-3px); }
+        }
+
+        form {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #DCE4EC;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #FAFAFA;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--celeste);
+            background-color: var(--blanco);
+            box-shadow: 0 0 8px rgba(119, 170, 219, 0.4);
+        }
+
+        .file-drop-area {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 35px 20px;
+            border: 2px dashed var(--celeste);
+            border-radius: 10px;
+            background-color: rgba(117, 170, 219, 0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .file-drop-area:hover {
+            background-color: rgba(117, 170, 219, 0.12);
+        }
+
+        .file-drop-area input[type="file"] {
+            position: absolute;
+            left: 0; top: 0; opacity: 0;
+            width: 100%; height: 100%;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .file-counter {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .file-counter.ready { color: #2E7D32; }
+        .file-counter.error { color: #C62828; }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #1A1A1A, #333333);
+            color: var(--blanco);
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+            border-bottom: 4px solid #000000;
+        }
+
+        .btn-submit:hover { background: linear-gradient(135deg, #2A2A2A, #444444); }
+        .btn-submit:active { transform: translateY(2px); border-bottom-width: 2px; }
+        .btn-submit:disabled {
+            background: #CCCCCC !important;
+            border-bottom-color: #999999 !important;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        /* --- OVERLAY DE CARGA --- */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            border-top-color: var(--dorado);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="confetti-container" id="confettiBag"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Álbum Oficial del Mejor Papá</h1>
+            <p>Subí tus datos y las 30 fotos para completar el álbum</p>
+            <div class="badge">
+                <img src="copa.png" alt="Copa" class="badge-icon">
+                MI PAPÁ ES UNA LEYENDA
+            </div>
+        </div>
+
+        <form id="posterForm">
+            <div class="form-group">
+                <label for="alumno">Nombre Completo del Alumno</label>
+                <input type="text" id="alumno" required placeholder="Ej: Juan Pérez">
+            </div>
+
+            <div class="form-group">
+                <label for="grado">Grado / División</label>
+                <input type="text" id="grado" required placeholder="Ej: 4to A">
+            </div>
+
+            <div class="form-group">
+                <label for="tutor">Nombre del Padre o Tutor</label>
+                <input type="text" id="tutor" required placeholder="Ej: Carlos Pérez">
+            </div>
+
+            <div class="form-group">
+                <label>Fotos para el Álbum (Deben ser exactamente 30)</label>
+                <div class="file-drop-area">
+                    <span class="upload-icon">📸</span>
+                    <span style="font-weight: 500; color: #333;">Seleccionar imágenes</span>
+                    <span style="font-size: 12px; color: #666; margin-top: 4px;">Filtro activo: Solo imágenes (JPG, PNG, WEBP)</span>
+                    <input type="file" id="fotos" multiple accept="image/jpeg, image/png, image/webp" required>
+                </div>
+                <div id="fileCounter" class="file-counter">Fotos seleccionadas: 0 / 30</div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-submit" disabled>Enviar Fotos</button>
+        </form>
+    </div>
+
+    <div id="loadingOverlay" class="overlay">
+        <div class="spinner"></div>
+        <h2 id="loadingText" style="margin-bottom: 10px;">Subiendo archivos...</h2>
+        <p style="font-size: 14px; opacity: 0.8; max-width: 400px;">Por favor, no cierres esta ventana. Se están procesando y subiendo tus imágenes a Google Drive de forma segura.</p>
+    </div>
+
+    <script>
+        // --- GENERADOR DE LLUVIA DE PAPELITOS ---
+        const confettiBag = document.getElementById('confettiBag');
+        const colores = ['#75AADB', '#FFFFFF', '#D4AF37', '#5592cb', '#FFE066']; 
+        
+        for (let i = 0; i < 70; i++) {
+            const papelito = document.createElement('div');
+            papelito.classList.add('confetti');
+            papelito.style.left = Math.random() * 100 + 'vw';
+            papelito.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
+            papelito.style.animationDelay = Math.random() * 5 + 's';
+            papelito.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+            papelito.style.width = Math.random() * 8 + 6 + 'px';
+            papelito.style.height = Math.random() * 12 + 8 + 'px';
+            confettiBag.appendChild(papelito);
+        }
+
+        // --- LÓGICA DEL FORMULARIO ---
+        const fileInput = document.getElementById('fotos');
+        const fileCounter = document.getElementById('fileCounter');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('posterForm');
+        const overlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+
+        // TU LINK OFICIAL INTEGRADO
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKYm5VbW8hiD1omR8eLHCtsTa7cRIq2V5VdWiVh6q36tOG92r9VWKBEMj36fOudC8G/exec"; 
+
+        // Validación estricta a 30 fotos e imágenes limpias
+        fileInput.addEventListener('change', function() {
+            const archivos = Array.from(this.files);
+            
+            const soloImagenes = archivos.filter(file => {
+                return file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp';
+            });
+
+            const cantidad = soloImagenes.length;
+            
+            if (archivos.length !== cantidad) {
+                alert('⚠️ ¡Error! Se detectaron archivos que no son imágenes válidas.\nSolo se permiten fotos (JPG, PNG o WEBP). Los videos u otros formatos no están permitidos.');
+                this.value = '';
+                fileCounter.textContent = `Fotos seleccionadas: 0 / 30`;
+                fileCounter.className = "file-counter error";
+                submitBtn.disabled = true;
+                return;
+            }
+            
+            if (cantidad === 30) {
+                fileCounter.textContent = `¡Perfecto! Seleccionaste las 30 fotos correctamente.`;
+                fileCounter.className = "file-counter ready";
+                submitBtn.disabled = false;
+            } else {
+                fileCounter.textContent = `Fotos seleccionadas: ${cantidad} / 30 (Deben ser exactamente 30)`;
+                fileCounter.className = "file-counter error";
+                submitBtn.disabled = true;
+            }
+        });
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            overlay.style.display = 'flex';
+            submitBtn.disabled = true;
+
+            const files = fileInput.files;
+            const promesasArchivos = [];
+
+            for (let i = 0; i < files.length; i++) {
+                loadingText.textContent = `Procesando foto ${i + 1} de 30...`;
+                promesasArchivos.push(convertirBase64(files[i]));
+            }
+
+            try {
+                const imagenesBase64 = await Promise.all(promesasArchivos);
+                loadingText.textContent = "Conectando con Google Drive y guardando todo...";
+
+                const payload = {
+                    alumno: document.getElementById('alumno').value,
+                    grado: document.getElementById('grado').value,
+                    tutor: document.getElementById('tutor').value,
+                    fotos: imagenesBase64
+                };
+
+                const respuesta = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+
+                const resultado = await respuesta.json();
+
+                if (resultado.status === 'success') {
+                    if(resultado.mode === 'updated') {
+                        alert('¡Álbum Actualizado! Reconocimos tu carpeta y añadimos/reemplazamos las fotos con éxito.');
+                    } else {
+                        alert('¡Excelente! Tus datos y las 30 fotos se subieron correctamente.');
+                    }
+                    form.reset();
+                    fileCounter.textContent = "Fotos seleccionadas: 0 / 30";
+                    fileCounter.className = "file-counter";
+                } else {
+                    alert('Hubo un error en el servidor de Google: ' + resultado.message);
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert('Ocurrió un error en el envío. Verificá tu conexión a internet o la configuración del Script.');
+            } finally {
+                overlay.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+
+        function convertirBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    resolve({
+                        nombre: file.name,
+                        mimeType: file.type,
+                        bytes: reader.result.split(',')[1]
+                    });
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+    </script>
+</body>
+</html>
