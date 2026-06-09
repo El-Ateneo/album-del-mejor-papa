@@ -22,22 +22,17 @@
 
         body {
             background-image: url('fondo.jpg');
-            background-position: center center;
+            background-position: center top;
             background-size: cover; 
-            background-repeat: no-repeat; 
-            background-attachment: fixed;
+            background-repeat: repeat-y; 
+            background-attachment: scroll;
             background-color: #0d233a; 
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Permite scroll natural hacia abajo */
             min-height: 100vh;
-            padding: 20px;
+            padding: 20px 12px;
             position: relative;
-            overflow-x: hidden;
-        }
-
-        @media (min-width: 1024px) {
-            body { background-size: contain; background-repeat: repeat-x; }
         }
 
         .confetti-container {
@@ -56,48 +51,45 @@
             100% { transform: translateY(105vh) rotate(720deg); }
         }
 
+        /* CONTENEDOR TOTALMENTE FLEXIBLE */
         .container {
-            background-color: transparent; 
+            background-color: rgba(13, 35, 58, 0.4); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             width: 100%;
             max-width: 500px;
             border-radius: 20px;
-            overflow: hidden;
             position: relative;
             z-index: 10; 
-            border: 2px solid rgba(255, 255, 255, 0.35);
+            border: 2px solid rgba(255, 255, 255, 0.25);
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-        }
-
-        @media (max-width: 480px) {
-            body { padding: 12px; }
-            .container { width: 96%; margin: 0 auto; }
+            margin-bottom: 30px;
+            height: auto; /* Evita rigidez de tamaño */
         }
 
         .header {
-            background: linear-gradient(135deg, rgba(13, 35, 58, 0.9), rgba(25, 65, 110, 0.9));
+            background: linear-gradient(135deg, rgba(13, 35, 58, 0.95), rgba(25, 65, 110, 0.95));
             color: var(--blanco);
-            padding: 30px 20px;
+            padding: 25px 15px;
             text-align: center;
             border-bottom: 4px solid var(--dorado);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border-top-left-radius: 18px;
             border-top-right-radius: 18px;
         }
 
         .header h1 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 4px 8px rgba(0,0,0,0.5);
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
         .header p {
-            font-size: 14px;
-            opacity: 0.95;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            font-size: 13px;
+            opacity: 0.9;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
         .header .badge {
@@ -106,59 +98,49 @@
             gap: 8px;
             background: linear-gradient(135deg, #FFE066, var(--dorado));
             color: var(--oscuro);
-            padding: 6px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 12px;
-            margin-top: 12px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+            font-size: 11px;
+            margin-top: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .badge-icon {
-            width: 32px; height: 32px; object-fit: contain;
-            animation: flotarCopa 1.5s ease-in-out infinite alternate;
+            width: 24px; height: 24px; object-fit: contain;
         }
 
-        @keyframes flotarCopa { 0% { transform: translateY(0); } 100% { transform: translateY(-3px); } }
-
-        form { padding: 24px 15px; background-color: transparent; }
-        .form-group { margin-bottom: 22px; }
+        form { padding: 20px 15px; }
+        .form-group { margin-bottom: 20px; }
 
         label {
-            display: block; font-size: 14px; font-weight: 800; margin-bottom: 8px; color: #FFE066; 
-            text-transform: uppercase; letter-spacing: 0.6px;
-            text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, 0px 2px 4px rgba(0,0,0,0.8);
+            display: block; font-size: 13px; font-weight: 800; margin-bottom: 8px; color: #FFE066; 
+            text-transform: uppercase; letter-spacing: 0.5px;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
         input[type="text"] {
-            width: 100%; padding: 14px; background-color: rgba(255, 255, 255, 0.45); 
-            border: 2px solid rgba(13, 35, 58, 0.6); border-radius: 12px;
-            font-size: 16px; color: var(--texto-input); font-weight: 600; transition: all 0.3s;
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            width: 100%; padding: 12px; background-color: rgba(255, 255, 255, 0.85); 
+            border: 2px solid rgba(13, 35, 58, 0.8); border-radius: 10px;
+            font-size: 15px; color: var(--texto-input); font-weight: 600;
         }
 
         input[type="text"]:focus {
-            outline: none; border-color: var(--oscuro); background-color: rgba(255, 255, 255, 0.7);
-            box-shadow: 0 0 12px rgba(13, 35, 58, 0.4);
+            outline: none; background-color: #ffffff; border-color: var(--dorado);
         }
-
-        input[type="text"]::placeholder { color: rgba(13, 35, 58, 0.7); font-weight: 500; }
 
         .file-drop-area {
             position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 35px 20px; background-color: rgba(255, 255, 255, 0.35); border: 2px dashed #0d233a;
-            border-radius: 12px; text-align: center; cursor: pointer; transition: background-color 0.3s;
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 30px 15px; background-color: rgba(255, 255, 255, 0.9); border: 2px dashed var(--texto-input);
+            border-radius: 12px; text-align: center; cursor: pointer;
         }
 
-        .file-drop-area:hover { background-color: rgba(255, 255, 255, 0.5); }
         .file-drop-area input[type="file"] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
-        .upload-icon { font-size: 36px; margin-bottom: 10px; }
+        .upload-icon { font-size: 32px; margin-bottom: 5px; }
 
         .file-counter {
-            margin-top: 12px; font-size: 14px; font-weight: bold; color: var(--blanco);
+            margin-top: 12px; font-size: 13px; font-weight: bold; color: var(--blanco);
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
             display: flex; justify-content: space-between; align-items: center;
         }
@@ -167,112 +149,89 @@
         .file-counter.error { color: #FFE066; } 
 
         .btn-clear {
-            background-color: rgba(235, 95, 95, 0.8); color: white; border: none;
-            padding: 4px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;
-            font-weight: bold; text-transform: uppercase; transition: background 0.2s;
+            background-color: #dc3545; color: white; border: none;
+            padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;
+            font-weight: bold; text-transform: uppercase;
         }
-        .btn-clear:hover { background-color: rgb(215, 75, 75); }
 
-        /* --- REDISEÑO DEL MOSAICO EN CUADRÍCULA PROFESIONAL --- */
+        /* --- CORRECCIÓN DE LA GRILLA DE MOSAICOS (AUTO EXTENSIBLE) --- */
         .preview-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columnas perfectas en mobile */
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px;
             margin-top: 15px;
-            max-height: 310px; /* Un poco más alto para ver mejor las fotos */
-            overflow-y: auto;
-            padding: 12px;
-            background-color: rgba(13, 35, 58, 0.6);
-            border-radius: 14px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
             border: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            height: auto;          /* Altura automática adaptativa */
+            max-height: none;      /* Eliminamos el freno de altura */
+            overflow-y: visible;   /* Permitimos que empuje el contenedor hacia abajo */
         }
 
         .preview-item {
             position: relative;
-            aspect-ratio: 1 / 1;
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Cuadrados perfectos sin importar la pantalla */
             border-radius: 8px;
             overflow: hidden;
             border: 2px solid var(--blanco);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-        }
-
-        .preview-item:hover {
-            transform: scale(1.02);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.4);
         }
 
         .preview-item img {
             width: 100%; height: 100%; object-fit: cover;
+            display: block;
         }
 
-        /* Botón eliminar X más grande y estético */
         .preview-item .btn-remove {
             position: absolute;
             top: 4px; right: 4px;
-            background-color: rgba(235, 95, 95, 0.95);
+            background-color: #dc3545;
             color: white; border: 1px solid white;
-            width: 24px; height: 24px;
+            width: 22px; height: 22px;
             font-size: 11px; font-weight: bold;
             border-radius: 50%; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            z-index: 5;
         }
 
         .btn-submit {
-            width: 100%; background: linear-gradient(135deg, #1A1A1A, #333333); color: var(--blanco);
-            border: none; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 10px;
-            cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px;
-            margin-top: 15px; border-bottom: 4px solid #000000;
+            width: 100%; background: linear-gradient(135deg, #222, #444); color: var(--blanco);
+            border: none; padding: 15px; font-size: 15px; font-weight: bold; border-radius: 10px;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
+            margin-top: 15px; border-bottom: 4px solid #000;
         }
 
-        .btn-submit:hover { background: linear-gradient(135deg, #2A2A2A, #444444); }
-        .btn-submit:active { transform: translateY(2px); border-bottom-width: 2px; }
         .btn-submit:disabled { background: #CCCCCC !important; border-bottom-color: #999999 !important; color: #666666; cursor: not-allowed; }
 
-        /* --- MODAL DE CARGA CON PROGRESO REAL --- */
+        /* --- OVERLAY DE PROGRESO DE ENVÍO --- */
         .overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9); z-index: 1000; flex-direction: column;
+            background-color: rgba(0,0,0,0.92); z-index: 1000; flex-direction: column;
             justify-content: center; align-items: center; color: white; padding: 25px; text-align: center;
         }
 
-        /* Contenedor de la barra de progreso */
         .progress-container {
-            width: 100%;
-            max-width: 350px;
-            background-color: rgba(255, 255, 255, 0.2);
-            height: 18px;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+            width: 100%; max-width: 300px; background-color: rgba(255, 255, 255, 0.2);
+            height: 16px; border-radius: 10px; margin: 20px 0; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Barra interna animada con los colores de la app */
         .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--celeste), var(--dorado));
-            border-radius: 10px;
-            transition: width 0.4s ease-out; /* Animación fluida de llenado */
-            box-shadow: 0 0 10px var(--dorado);
+            width: 0%; height: 100%; background: linear-gradient(90deg, var(--celeste), var(--dorado));
+            border-radius: 10px; transition: width 0.3s ease-out;
         }
 
         .alert-box {
             background: linear-gradient(135deg, #0d233a, #153556); padding: 25px;
             border-radius: 16px; border: 2px solid var(--dorado); max-width: 400px; width: 90%;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center;
-            animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .alert-box h3 { color: #FFE066; margin-bottom: 10px; font-size: 18px; text-transform: uppercase; }
-        .alert-box p { color: white; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+        .alert-box h3 { color: #FFE066; margin-bottom: 10px; text-transform: uppercase; font-size: 16px;}
+        .alert-box p { color: white; font-size: 13px; line-height: 1.4; margin-bottom: 20px; }
         .alert-btn {
             background: linear-gradient(135deg, #FFE066, var(--dorado)); color: var(--oscuro);
-            border: none; padding: 10px 24px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase;
+            border: none; padding: 10px 22px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer;
         }
     </style>
 </head>
@@ -310,8 +269,8 @@
                 <label>Fotos para el Álbum (Máximo 30)</label>
                 <div class="file-drop-area">
                     <span class="upload-icon">📸</span>
-                    <span style="font-weight: 700; color: #0d233a;">Seleccionar imágenes</span>
-                    <span style="font-size: 12px; color: rgba(13, 35, 58, 0.85); margin-top: 4px; font-weight: 600;">Podés agregarlas de a tandas</span>
+                    <span style="font-weight: 700; color: #0d233a; font-size: 14px;">Seleccionar imágenes</span>
+                    <span style="font-size: 11px; color: rgba(13, 35, 58, 0.85); margin-top: 4px; font-weight: 600;">Podés agregarlas de a tandas</span>
                     <input type="file" id="fotos" multiple accept="image/jpeg, image/png, image/webp">
                 </div>
                 
@@ -328,13 +287,11 @@
     </div>
 
     <div id="loadingOverlay" class="overlay">
-        <h2 id="loadingText" style="font-size: 22px; color: #FFE066;">Iniciando subida...</h2>
-        
+        <h2 id="loadingText" style="font-size: 20px; color: #FFE066;">Iniciando subida...</h2>
         <div class="progress-container">
             <div id="realProgressBar" class="progress-bar"></div>
         </div>
-        
-        <p style="font-size: 14px; opacity: 0.9; max-width: 400px; line-height: 1.4;">
+        <p style="font-size: 13px; opacity: 0.9; max-width: 350px; line-height: 1.4;">
             Por favor, mantené esta ventana abierta. Estamos enviando tus imágenes de manera segura a Google Drive.
         </p>
     </div>
@@ -351,15 +308,15 @@
         // --- GENERADOR DE LLUVIA DE PAPELITOS ---
         const confettiBag = document.getElementById('confettiBag');
         const colores = ['#75AADB', '#FFFFFF', '#D4AF37', '#5592cb', '#FFE066']; 
-        for (let i = 0; i < 70; i++) {
+        for (let i = 0; i < 50; i++) {
             const papelito = document.createElement('div');
             papelito.classList.add('confetti');
             papelito.style.left = Math.random() * 100 + 'vw';
             papelito.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
             papelito.style.animationDelay = Math.random() * 5 + 's';
             papelito.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
-            papelito.style.width = Math.random() * 8 + 6 + 'px';
-            papelito.style.height = Math.random() * 12 + 8 + 'px';
+            papelito.style.width = Math.random() * 6 + 5 + 'px';
+            papelito.style.height = Math.random() * 10 + 6 + 'px';
             confettiBag.appendChild(papelito);
         }
 
@@ -378,7 +335,6 @@
         const loadingText = document.getElementById('loadingText');
         const realProgressBar = document.getElementById('realProgressBar');
 
-        // URL fija de tu Web App de Google Apps Script
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKYm5VbW8hiD1omR8eLHCtsTa7cRIq2V5VdWiVh6q36tOG92r9VWKBEMj36fOudC8G/exec"; 
 
         function mostrarAlerta(titulo, mensaje) {
@@ -393,20 +349,17 @@
 
         fileInput.addEventListener('change', function() {
             const nuevosArchivos = Array.from(this.files);
-            
             const imagenesValidas = nuevosArchivos.filter(file => {
                 return file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp';
             });
 
             if (nuevosArchivos.length !== imagenesValidas.length) {
-                mostrarAlerta('Formato inválido', '⚠️ Se descartaron archivos no permitidos. Solo podés subir fotos en formato de imagen (JPG, PNG o WEBP).');
+                mostrarAlerta('Formato inválido', '⚠️ Solo podés subir fotos (JPG, PNG o WEBP).');
             }
 
             let repetidasContador = 0;
-
             imagenesValidas.forEach(file => {
                 const yaExiste = listaFotosAcumuladas.some(foto => foto.name === file.name && foto.size === file.size);
-                
                 if (yaExiste) {
                     repetidasContador++;
                 } else if (listaFotosAcumuladas.length < 30) {
@@ -418,10 +371,6 @@
                 mostrarAlerta('Fotos repetidas', `Ignoramos ${repetidasContador} foto(s) porque ya figuraban en la lista.`);
             }
 
-            if (listaFotosAcumuladas.length === 30 && (listaFotosAcumuladas.length + (imagenesValidas.length - repetidasContador) > 30)) {
-                mostrarAlerta('Límite alcanzado', '¡Llegaste al límite máximo de 30 fotos para el álbum!');
-            }
-
             this.value = ''; 
             renderizarMosaico();
             actualizarInterfazContador();
@@ -429,7 +378,6 @@
 
         function renderizarMosaico() {
             previewGrid.innerHTML = '';
-            
             if (listaFotosAcumuladas.length > 0) {
                 previewGrid.style.display = 'grid';
             } else {
@@ -471,7 +419,6 @@
             const cantidad = listaFotosAcumuladas.length;
             clearBtn.style.display = cantidad > 0 ? 'inline-block' : 'none';
 
-            // FLEXIBILIDAD: Se habilita con que haya al menos 1 foto agregada
             if (cantidad > 0) {
                 counterText.textContent = `Fotos acumuladas: ${cantidad} / 30`;
                 fileCounter.className = "file-counter ready";
@@ -483,11 +430,8 @@
             }
         }
 
-        // --- SUBIDA SECUENCIAL CON ANIMACIÓN DE BARRA DE PROGRESO REAL ---
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            // Inicializar la barra de carga antes del bucle
             realProgressBar.style.width = "0%";
             loadingText.textContent = `Preparando archivos...`;
             overlay.style.display = 'flex';
@@ -500,9 +444,7 @@
 
             try {
                 for (let i = 0; i < totalFotos; i++) {
-                    // Mensaje real interactivo por cada iteración
                     loadingText.textContent = `Subiendo foto ${i + 1} de ${totalFotos}...`;
-                    
                     const fotoProcesada = await convertirBase64(listaFotosAcumuladas[i]);
 
                     const payloadIndividual = {
@@ -519,16 +461,14 @@
                     });
                     
                     if (!respuesta.ok) {
-                        throw new Error("Error en la respuesta del Script de Google.");
+                        throw new Error("Error en el servidor de Google.");
                     }
 
-                    // CÁLCULO EN TIEMPO REAL: Llenar la barra progresivamente según avanza el bucle
                     let porcentajeProgreso = ((i + 1) / totalFotos) * 100;
                     realProgressBar.style.width = `${porcentajeProgreso}%`;
                 }
 
-                // Éxito absoluto al terminar de iterar la lista completa
-                mostrarAlerta('¡Envío Exitoso!', `¡Excelente! Los datos de ${alumno} y sus ${totalFotos} fotos se guardaron de forma segura en Google Drive.`);
+                mostrarAlerta('¡Envío Exitoso!', `¡Excelente! Los datos de ${alumno} y sus ${totalFotos} fotos se guardaron correctamente adentro de la carpeta 'foto album del mejor papa' en Drive.`);
                 form.reset();
                 listaFotosAcumuladas = [];
                 renderizarMosaico();
@@ -538,7 +478,7 @@
                 console.error(error);
                 mostrarAlerta(
                     'Error de Envío', 
-                    'No se pudo completar la carga de las fotos. Verificá tu señal de internet o que los permisos del Script estén configurados de forma pública.'
+                    'No se pudo completar la carga. Verificá los accesos públicos de tu Script.'
                 );
             } finally {
                 overlay.style.display = 'none';
