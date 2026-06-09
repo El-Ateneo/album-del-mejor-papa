@@ -10,6 +10,7 @@
             --dorado: #D4AF37;
             --oscuro: #1A1A1A;
             --blanco: #FFFFFF;
+            --texto-input: #0D233A; /* Azul oscuro para máxima lectura dentro de los campos */
         }
 
         * {
@@ -35,7 +36,6 @@
             overflow-x: hidden;
         }
 
-        /* Si es una computadora ancha, el fondo se adapta para no romperse */
         @media (min-width: 1024px) {
             body {
                 background-size: contain;
@@ -65,13 +65,8 @@
         }
 
         @keyframes fall {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                top: -20px;
-            }
-            100% {
-                transform: translateY(105vh) rotate(720deg);
-            }
+            0% { transform: translateY(0) rotate(0deg); top: -20px; }
+            100% { transform: translateY(105vh) rotate(720deg); }
         }
 
         /* --- CONTENEDOR PRINCIPAL CON MARCO DEFINIDO --- */
@@ -83,12 +78,10 @@
             overflow: hidden;
             position: relative;
             z-index: 10; 
-            /* Marco nítido y elegante para separar el formulario del fondo */
-            border: 2px solid rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.35);
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
-        /* Ajuste de márgenes para el celular */
         @media (max-width: 480px) {
             body { padding: 12px; }
             .container { width: 96%; margin: 0 auto; }
@@ -96,13 +89,13 @@
 
         /* --- CABECERA ESMERILADA --- */
         .header {
-            background: linear-gradient(135deg, rgba(30, 60, 114, 0.85), rgba(42, 82, 152, 0.85));
+            background: linear-gradient(135deg, rgba(13, 35, 58, 0.9), rgba(25, 65, 110, 0.9));
             color: var(--blanco);
             padding: 30px 20px;
             text-align: center;
             border-bottom: 4px solid var(--dorado);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-top-left-radius: 18px;
             border-top-right-radius: 18px;
         }
@@ -113,12 +106,14 @@
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            /* Delineado negro grueso para el título */
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 4px 8px rgba(0,0,0,0.5);
         }
 
         .header p {
             font-size: 14px;
-            opacity: 0.9;
+            opacity: 0.95;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
         .header .badge {
@@ -132,12 +127,11 @@
             font-weight: bold;
             font-size: 12px;
             margin-top: 12px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        /* Estilo y animación flotante para tu copa vectorizada agrandada */
         .badge-icon {
             width: 32px; 
             height: 32px;
@@ -156,48 +150,56 @@
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
-        /* Etiquetas de texto en amarillo dorado con alto contraste */
+        /* TRUCO CLAVE: Delineado negro completo alrededor de las letras amarillas */
         label {
             display: block;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 800;
             margin-bottom: 8px;
             color: #FFE066; 
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
+            text-shadow: 
+                -1.5px -1.5px 0 #000,  
+                 1.5px -1.5px 0 #000,
+                -1.5px  1.5px 0 #000,
+                 1.5px  1.5px 0 #000,
+                 0px    2px 4px rgba(0,0,0,0.8);
         }
 
-        /* --- INPUTS MÁS SÓLIDOS Y ENMARCADOS --- */
+        /* --- INPUTS AJUSTADOS CON ALTO CONTRASTE --- */
         input[type="text"] {
             width: 100%;
             padding: 14px;
-            background-color: rgba(255, 255, 255, 0.22); 
-            border: 2px solid rgba(255, 255, 255, 0.5); 
+            /* Hacemos la caja blanca un poquito más sólida para tapar el fondo brillante */
+            background-color: rgba(255, 255, 255, 0.45); 
+            border: 2px solid rgba(13, 35, 58, 0.6); 
             border-radius: 12px;
             font-size: 16px;
-            color: var(--blanco); 
+            color: var(--texto-input); /* El usuario escribe en azul oscuro nítido */
             font-weight: 600;
             transition: all 0.3s;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: var(--dorado);
-            background-color: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+            border-color: var(--oscuro);
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 12px rgba(13, 35, 58, 0.4);
         }
 
+        /* CORRECCIÓN: Letras de ejemplo en color gris oscuro/azulado */
         input[type="text"]::placeholder {
-            color: rgba(255, 255, 255, 0.65);
+            color: rgba(13, 35, 58, 0.7);
+            font-weight: 500;
         }
 
-        /* --- ZONA DE CARGA DE IMÁGENES MÁS VISIBLE --- */
+        /* --- ZONA DE CARGA DE IMÁGENES AJUSTADA --- */
         .file-drop-area {
             position: relative;
             display: flex;
@@ -205,19 +207,18 @@
             align-items: center;
             justify-content: center;
             padding: 35px 20px;
-            background-color: rgba(255, 255, 255, 0.15);
-            border: 2px dashed rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.35);
+            border: 2px dashed #0d233a;
             border-radius: 12px;
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
         .file-drop-area:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            border-color: var(--dorado);
+            background-color: rgba(255, 255, 255, 0.5);
         }
 
         .file-drop-area input[type="file"] {
@@ -232,17 +233,17 @@
             margin-bottom: 10px;
         }
 
-        /* --- CONTADOR DE ARCHIVOS --- */
+        /* --- CONTADOR DE ARCHIVOS CON DELINEADO NEGRO --- */
         .file-counter {
             margin-top: 12px;
             font-size: 14px;
             font-weight: bold;
             color: var(--blanco);
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
-        .file-counter.ready { color: #81C784; } 
-        .file-counter.error { color: #E57373; } 
+        .file-counter.ready { color: #A9DFBF; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; } 
+        .file-counter.error { color: #F5B7B1; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; } 
 
         .btn-submit {
             width: 100%;
@@ -331,8 +332,8 @@
                 <label>Fotos para el Álbum (Deben ser exactamente 30)</label>
                 <div class="file-drop-area">
                     <span class="upload-icon">📸</span>
-                    <span style="font-weight: 500; color: rgba(255,255,255,0.95);">Seleccionar imágenes</span>
-                    <span style="font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 4px;">Filtro activo: Solo imágenes (JPG, PNG, WEBP)</span>
+                    <span style="font-weight: 700; color: #0d233a;">Seleccionar imágenes</span>
+                    <span style="font-size: 12px; color: rgba(13, 35, 58, 0.85); margin-top: 4px; font-weight: 600;">Filtro activo: Solo imágenes (JPG, PNG, WEBP)</span>
                     <input type="file" id="fotos" multiple accept="image/jpeg, image/png, image/webp" required>
                 </div>
                 <div id="fileCounter" class="file-counter">Fotos seleccionadas: 0 / 30</div>
@@ -377,11 +378,9 @@
 
         fileInput.addEventListener('change', function() {
             const archivos = Array.from(this.files);
-            
             const soloImagenes = archivos.filter(file => {
                 return file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp';
             });
-
             const cantidad = soloImagenes.length;
             
             if (archivos.length !== cantidad) {
@@ -406,7 +405,6 @@
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
             overlay.style.display = 'flex';
             submitBtn.disabled = true;
 
@@ -433,7 +431,6 @@
                     method: 'POST',
                     body: JSON.stringify(payload)
                 });
-
                 const resultado = await respuesta.json();
 
                 if (resultado.status === 'success') {
@@ -448,7 +445,6 @@
                 } else {
                     alert('Hubo un error en el servidor de Google: ' + resultado.message);
                 }
-
             } catch (error) {
                 console.error(error);
                 alert('Ocurrió un error en el envío. Verificá tu conexión a internet o la configuración del Script.');
