@@ -74,7 +74,7 @@
             }
         }
 
-        /* --- CONTENEDOR PRINCIPAL COMPLETAMENTE TRANSPARENTE --- */
+        /* --- CONTENEDOR PRINCIPAL CON MARCO DEFINIDO --- */
         .container {
             background-color: transparent; 
             width: 100%;
@@ -83,6 +83,9 @@
             overflow: hidden;
             position: relative;
             z-index: 10; 
+            /* Marco nítido y elegante para separar el formulario del fondo */
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
         /* Ajuste de márgenes para el celular */
@@ -100,8 +103,8 @@
             border-bottom: 4px solid var(--dorado);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
+            border-top-left-radius: 18px;
+            border-top-right-radius: 18px;
         }
 
         .header h1 {
@@ -156,42 +159,45 @@
             margin-bottom: 20px;
         }
 
-        /* Etiquetas de texto flotando sobre el fondo con sombra para legibilidad */
+        /* Etiquetas de texto en amarillo dorado con alto contraste */
         label {
             display: block;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: bold;
             margin-bottom: 8px;
-            color: var(--blanco);
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+            color: #FFE066; 
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* --- INPUTS CON EFECTO ESMERILADO (GLASSMORPHISM) --- */
+        /* --- INPUTS MÁS SÓLIDOS Y ENMARCADOS --- */
         input[type="text"] {
             width: 100%;
             padding: 14px;
-            background-color: rgba(255, 255, 255, 0.15); 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
+            background-color: rgba(255, 255, 255, 0.22); 
+            border: 2px solid rgba(255, 255, 255, 0.5); 
             border-radius: 12px;
             font-size: 16px;
             color: var(--blanco); 
+            font-weight: 600;
             transition: all 0.3s;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         input[type="text"]:focus {
             outline: none;
             border-color: var(--dorado);
-            background-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+            background-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
         }
 
         input[type="text"]::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.65);
         }
 
-        /* --- ZONA DE CARGA DE IMÁGENES ESMERILADA --- */
+        /* --- ZONA DE CARGA DE IMÁGENES MÁS VISIBLE --- */
         .file-drop-area {
             position: relative;
             display: flex;
@@ -199,18 +205,18 @@
             align-items: center;
             justify-content: center;
             padding: 35px 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px dashed rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 2px dashed rgba(255, 255, 255, 0.6);
             border-radius: 12px;
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .file-drop-area:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.25);
             border-color: var(--dorado);
         }
 
@@ -325,8 +331,8 @@
                 <label>Fotos para el Álbum (Deben ser exactamente 30)</label>
                 <div class="file-drop-area">
                     <span class="upload-icon">📸</span>
-                    <span style="font-weight: 500; color: rgba(255,255,255,0.9);">Seleccionar imágenes</span>
-                    <span style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px;">Filtro activo: Solo imágenes (JPG, PNG, WEBP)</span>
+                    <span style="font-weight: 500; color: rgba(255,255,255,0.95);">Seleccionar imágenes</span>
+                    <span style="font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 4px;">Filtro activo: Solo imágenes (JPG, PNG, WEBP)</span>
                     <input type="file" id="fotos" multiple accept="image/jpeg, image/png, image/webp" required>
                 </div>
                 <div id="fileCounter" class="file-counter">Fotos seleccionadas: 0 / 30</div>
