@@ -74,43 +74,34 @@
             }
         }
 
-        /* --- CONTENEDOR DEL FORMULARIO --- */
-                /* --- CONTENEDOR DEL FORMULARIO (EFECTO VIDRIO ESMERILADO) --- */
+        /* --- CONTENEDOR PRINCIPAL COMPLETAMENTE TRANSPARENTE --- */
         .container {
-            /* Cambiamos el blanco sólido por un blanco con 80% de opacidad */
-            background-color: rgba(255, 255, 255, 0.82); 
+            background-color: transparent; 
             width: 100%;
             max-width: 500px;
             border-radius: 20px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.35);
             overflow: hidden;
-            border-top: 8px solid var(--celeste);
             position: relative;
             z-index: 10; 
-            
-            /* ESTE ES EL TRUCO: Desenfoca el fondo por detrás del formulario */
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); /* Compatibilidad para iPhones */
         }
 
-        /* Ajuste extra para que en el celular no pegue el formulario a los bordes */
+        /* Ajuste de márgenes para el celular */
         @media (max-width: 480px) {
-            body {
-                padding: 12px; /* Menos espacio de relleno general */
-            }
-            .container {
-                width: 94%; /* El formulario ocupa el 94% del ancho, dejando ver tiras del fondo a los lados */
-                margin: 0 auto;
-            }
+            body { padding: 12px; }
+            .container { width: 96%; margin: 0 auto; }
         }
-        
 
+        /* --- CABECERA ESMERILADA --- */
         .header {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.85), rgba(42, 82, 152, 0.85));
             color: var(--blanco);
             padding: 30px 20px;
             text-align: center;
             border-bottom: 4px solid var(--dorado);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
 
         .header h1 {
@@ -143,9 +134,9 @@
             letter-spacing: 0.5px;
         }
 
-        /* Estilo y animación flotante para tu copa vectorizada */
+        /* Estilo y animación flotante para tu copa vectorizada agrandada */
         .badge-icon {
-            width: 32px;
+            width: 32px; 
             height: 32px;
             object-fit: contain;
             animation: flotarCopa 1.5s ease-in-out infinite alternate;
@@ -157,38 +148,50 @@
         }
 
         form {
-            padding: 24px;
+            padding: 24px 15px;
+            background-color: transparent; 
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
+        /* Etiquetas de texto flotando sobre el fondo con sombra para legibilidad */
         label {
             display: block;
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #333;
+            color: var(--blanco);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
         }
 
+        /* --- INPUTS CON EFECTO ESMERILADO (GLASSMORPHISM) --- */
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #DCE4EC;
-            border-radius: 10px;
+            padding: 14px;
+            background-color: rgba(255, 255, 255, 0.15); 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            border-radius: 12px;
             font-size: 16px;
+            color: var(--blanco); 
             transition: all 0.3s;
-            background-color: #FAFAFA;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: var(--celeste);
-            background-color: var(--blanco);
-            box-shadow: 0 0 8px rgba(119, 170, 219, 0.4);
+            border-color: var(--dorado);
+            background-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
         }
 
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* --- ZONA DE CARGA DE IMÁGENES ESMERILADA --- */
         .file-drop-area {
             position: relative;
             display: flex;
@@ -196,16 +199,19 @@
             align-items: center;
             justify-content: center;
             padding: 35px 20px;
-            border: 2px dashed var(--celeste);
-            border-radius: 10px;
-            background-color: rgba(117, 170, 219, 0.05);
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .file-drop-area:hover {
-            background-color: rgba(117, 170, 219, 0.12);
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--dorado);
         }
 
         .file-drop-area input[type="file"] {
@@ -220,15 +226,17 @@
             margin-bottom: 10px;
         }
 
+        /* --- CONTADOR DE ARCHIVOS --- */
         .file-counter {
             margin-top: 12px;
             font-size: 14px;
-            font-weight: 600;
-            color: #666;
+            font-weight: bold;
+            color: var(--blanco);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        .file-counter.ready { color: #2E7D32; }
-        .file-counter.error { color: #C62828; }
+        .file-counter.ready { color: #81C784; } 
+        .file-counter.error { color: #E57373; } 
 
         .btn-submit {
             width: 100%;
@@ -317,8 +325,8 @@
                 <label>Fotos para el Álbum (Deben ser exactamente 30)</label>
                 <div class="file-drop-area">
                     <span class="upload-icon">📸</span>
-                    <span style="font-weight: 500; color: #333;">Seleccionar imágenes</span>
-                    <span style="font-size: 12px; color: #666; margin-top: 4px;">Filtro activo: Solo imágenes (JPG, PNG, WEBP)</span>
+                    <span style="font-weight: 500; color: rgba(255,255,255,0.9);">Seleccionar imágenes</span>
+                    <span style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px;">Filtro activo: Solo imágenes (JPG, PNG, WEBP)</span>
                     <input type="file" id="fotos" multiple accept="image/jpeg, image/png, image/webp" required>
                 </div>
                 <div id="fileCounter" class="file-counter">Fotos seleccionadas: 0 / 30</div>
@@ -359,10 +367,8 @@
         const overlay = document.getElementById('loadingOverlay');
         const loadingText = document.getElementById('loadingText');
 
-        // TU LINK OFICIAL INTEGRADO
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKYm5VbW8hiD1omR8eLHCtsTa7cRIq2V5VdWiVh6q36tOG92r9VWKBEMj36fOudC8G/exec"; 
 
-        // Validación estricta a 30 fotos e imágenes limpias
         fileInput.addEventListener('change', function() {
             const archivos = Array.from(this.files);
             
