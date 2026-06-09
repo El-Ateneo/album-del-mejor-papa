@@ -51,19 +51,19 @@
             100% { transform: translateY(105vh) rotate(720deg); }
         }
 
+        /* CONTENEDOR ORIGINAL 100% TRANSPARENTE */
         .container {
-            background: linear-gradient(135deg, rgba(13, 35, 58, 0.75), rgba(25, 65, 110, 0.65)); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background-color: transparent; 
             width: 100%;
             max-width: 500px;
             border-radius: 20px;
+            overflow: hidden;
             position: relative;
             z-index: 10; 
-            border: 2px solid rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.35);
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             margin-bottom: 30px;
-            height: auto; 
+            height: auto; /* Mantiene el crecimiento vertical para las fotos */
         }
 
         .header {
