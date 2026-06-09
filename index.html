@@ -75,8 +75,10 @@
         }
 
         /* --- CONTENEDOR DEL FORMULARIO --- */
+                /* --- CONTENEDOR DEL FORMULARIO (EFECTO VIDRIO ESMERILADO) --- */
         .container {
-            background-color: rgba(255, 255, 255, 0.96); 
+            /* Cambiamos el blanco sólido por un blanco con 80% de opacidad */
+            background-color: rgba(255, 255, 255, 0.82); 
             width: 100%;
             max-width: 500px;
             border-radius: 20px;
@@ -85,8 +87,23 @@
             border-top: 8px solid var(--celeste);
             position: relative;
             z-index: 10; 
-            backdrop-filter: blur(4px);
+            
+            /* ESTE ES EL TRUCO: Desenfoca el fondo por detrás del formulario */
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); /* Compatibilidad para iPhones */
         }
+
+        /* Ajuste extra para que en el celular no pegue el formulario a los bordes */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px; /* Menos espacio de relleno general */
+            }
+            .container {
+                width: 94%; /* El formulario ocupa el 94% del ancho, dejando ver tiras del fondo a los lados */
+                margin: 0 auto;
+            }
+        }
+        
 
         .header {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
