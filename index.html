@@ -63,7 +63,7 @@
             border: 2px solid rgba(255, 255, 255, 0.35);
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             margin-bottom: 30px;
-            height: auto; /* Mantiene el crecimiento vertical para las fotos */
+            height: auto; 
         }
 
         .header {
@@ -150,47 +150,37 @@
         }
 
         .preview-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px;
-            margin-top: 15px;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            height: auto;          
-            overflow-y: visible;   
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;
+            padding: 10px; background-color: rgba(0, 0, 0, 0.5); border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2); height: auto; overflow-y: visible;   
         }
 
         .preview-item {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1 / 1; 
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid var(--blanco);
-            box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+            position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 8px;
+            overflow: hidden; border: 2px solid var(--blanco); box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+            cursor: pointer;
         }
 
         .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+        /* BOTÓN DE TACHO ANIMADO EN LA GRILLA ESCOLAR */
         .preview-item .btn-remove {
-            position: absolute;
-            top: 4px; right: 4px;
-            background-color: #dc3545;
-            color: white; border: 1px solid white;
-            width: 22px; height: 22px;
-            font-size: 11px; font-weight: bold;
+            position: absolute; top: 5px; right: 5px; background-color: rgba(220, 53, 69, 0.95);
+            color: white; border: 1px solid white; width: 26px; height: 26px;
             border-radius: 50%; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 5;
+            display: flex; align-items: center; justify-content: center; z-index: 5;
+            transition: transform 0.2s ease, background-color 0.2s ease;
         }
+        .preview-item .btn-remove:active, .preview-item .btn-remove:hover {
+            transform: scale(1.15) rotate(10deg);
+            background-color: #dc3545;
+        }
+        .trash-svg { width: 14px; height: 14px; fill: white; }
 
         .btn-submit {
             width: 100%; background: linear-gradient(135deg, #222, #444); color: var(--blanco);
             border: none; padding: 15px; font-size: 15px; font-weight: bold; border-radius: 10px;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
-            margin-top: 15px; border-bottom: 4px solid #000;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 15px; border-bottom: 4px solid #000;
         }
 
         .btn-submit:disabled { background: #CCCCCC !important; border-bottom-color: #999999 !important; color: #666666; cursor: not-allowed; }
@@ -206,10 +196,7 @@
             height: 16px; border-radius: 10px; margin: 20px 0; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .progress-bar {
-            width: 0%; height: 100%; background: linear-gradient(90deg, var(--celeste), var(--dorado));
-            border-radius: 10px; transition: width 0.3s ease-out;
-        }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--celeste), var(--dorado)); border-radius: 10px; transition: width 0.3s ease-out; }
 
         .alert-box {
             background: linear-gradient(135deg, #0d233a, #153556); padding: 25px;
@@ -217,11 +204,29 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center;
         }
         .alert-box h3 { color: #FFE066; margin-bottom: 10px; text-transform: uppercase; font-size: 16px;}
-        .alert-box p { color: white; font-size: 13px; line-height: 1.4; margin-bottom: 20px; }
-        .alert-btn {
-            background: linear-gradient(135deg, #FFE066, var(--dorado)); color: var(--oscuro);
-            border: none; padding: 10px 22px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer;
+        .alert-box p { color: white; font-size: 13px; line-height: 1.5; margin-bottom: 20px; white-space: pre-line; }
+        .alert-btn { background: linear-gradient(135deg, #FFE066, var(--dorado)); color: var(--oscuro); border: none; padding: 10px 22px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+
+        /* VISOR INTERACTIVO EN PANTALLA COMPLETA */
+        .viewer-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.95); z-index: 2000; flex-direction: column;
+            justify-content: center; align-items: center; padding: 20px;
         }
+        .viewer-img { max-width: 100%; max-height: 70vh; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); object-fit: contain; }
+        .viewer-actions { display: flex; gap: 20px; margin-top: 25px; width: 100%; max-width: 260px; justify-content: center; }
+        
+        .btn-viewer-round {
+            width: 55px; height: 55px; border-radius: 50%; border: none; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-viewer-round:active { transform: scale(0.9); }
+        .btn-viewer-close { background-color: #6c757d; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-viewer-close:hover { transform: scale(1.08); background-color: #5a6268; }
+        .btn-viewer-delete { background-color: #dc3545; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-viewer-delete:hover { transform: scale(1.08) rotate(-5deg); background-color: #bd2130; }
+        .viewer-svg { width: 22px; height: 22px; fill: white; }
     </style>
 </head>
 <body>
@@ -275,6 +280,22 @@
         </form>
     </div>
 
+    <div id="imageViewer" class="viewer-overlay">
+        <img id="viewerImg" class="viewer-img" src="" alt="Vista previa grande">
+        <div class="viewer-actions">
+            <button type="button" class="btn-viewer-round btn-viewer-close" onclick="cerrarVisor()" title="Regresar">
+                <svg class="viewer-svg" viewBox="0 0 24 24">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </button>
+            <button type="button" id="btnViewerDelete" class="btn-viewer-round btn-viewer-delete" title="Eliminar Foto">
+                <svg class="viewer-svg" viewBox="0 0 24 24">
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <div id="loadingOverlay" class="overlay">
         <h2 id="loadingText" style="font-size: 20px; color: #FFE066;">Iniciando subida...</h2>
         <div class="progress-container">
@@ -293,6 +314,12 @@
         </div>
     </div>
 
+    <svg style="display: none;">
+        <g id="trashIcon">
+            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+        </g>
+    </svg>
+
     <script>
         // --- GENERADOR DE LLUVIA DE PAPELITOS ---
         const confettiBag = document.getElementById('confettiBag');
@@ -309,9 +336,9 @@
             confettiBag.appendChild(papelito);
         }
 
-        // --- LÓGICA DE ALMACENAMIENTO Y CONTROL DE FOTOS ---
         let listaFotosAcumuladas = []; 
-        
+        let fotoSeleccionadaIndex = null; 
+
         const fileInput = document.getElementById('fotos');
         const fileCounter = document.getElementById('fileCounter');
         const counterText = document.getElementById('counterText');
@@ -324,6 +351,10 @@
         const loadingText = document.getElementById('loadingText');
         const realProgressBar = document.getElementById('realProgressBar');
 
+        const imageViewer = document.getElementById('imageViewer');
+        const viewerImg = document.getElementById('viewerImg');
+        const btnViewerDelete = document.getElementById('btnViewerDelete');
+
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKYm5VbW8hiD1omR8eLHCtsTa7cRIq2V5VdWiVh6q36tOG92r9VWKBEMj36fOudC8G/exec"; 
 
         function mostrarAlerta(titulo, mensaje) {
@@ -332,9 +363,27 @@
             document.getElementById('customAlert').style.display = 'flex';
         }
 
-        function cerrarAlerta() {
-            document.getElementById('customAlert').style.display = 'none';
+        function cerrarAlerta() { document.getElementById('customAlert').style.display = 'none'; }
+
+        function abrirVisor(index) {
+            fotoSeleccionadaIndex = index;
+            viewerImg.src = URL.createObjectURL(listaFotosAcumuladas[index]);
+            imageViewer.style.display = 'flex';
         }
+
+        function cerrarVisor() {
+            imageViewer.style.display = 'none';
+            fotoSeleccionadaIndex = null;
+        }
+
+        btnViewerDelete.addEventListener('click', () => {
+            if (fotoSeleccionadaIndex !== null) {
+                listaFotosAcumuladas.splice(fotoSeleccionadaIndex, 1);
+                cerrarVisor();
+                renderizarMosaico();
+                actualizarInterfazContador();
+            }
+        });
 
         fileInput.addEventListener('change', function() {
             const nuevosArchivos = Array.from(this.files);
@@ -349,115 +398,75 @@
             let repetidasContador = 0;
             imagenesValidas.forEach(file => {
                 const yaExiste = listaFotosAcumuladas.some(foto => foto.name === file.name && foto.size === file.size);
-                if (yaExiste) {
-                    repetidasContador++;
-                } else if (listaFotosAcumuladas.length < 30) {
-                    listaFotosAcumuladas.push(file);
-                }
+                if (yaExiste) { repetidasContador++; } 
+                else if (listaFotosAcumuladas.length < 30) { listaFotosAcumuladas.push(file); }
             });
 
-            if (repetidasContador > 0) {
-                mostrarAlerta('Fotos repetidas', `Ignoramos ${repetidasContador} foto(s) porque ya figuraban en la lista.`);
-            }
-
-            this.value = ''; 
-            renderizarMosaico();
-            actualizarInterfazContador();
+            if (repetidasContador > 0) { mostrarAlerta('Fotos repetidas', `Ignoramos ${repetidasContador} foto(s) because ya figuraban en la lista.`); }
+            this.value = ''; renderizarMosaico(); actualizarInterfazContador();
         });
 
         function renderizarMosaico() {
             previewGrid.innerHTML = '';
-            if (listaFotosAcumuladas.length > 0) {
-                previewGrid.style.display = 'grid';
-            } else {
-                previewGrid.style.display = 'none';
-                return;
-            }
+            if (listaFotosAcumuladas.length > 0) { previewGrid.style.display = 'grid'; } 
+            else { previewGrid.style.display = 'none'; return; }
 
             listaFotosAcumuladas.forEach((file, index) => {
                 const item = document.createElement('div');
                 item.classList.add('preview-item');
+                
+                item.addEventListener('click', (e) => {
+                    if(e.target.closest('.btn-remove')) return; 
+                    abrirVisor(index);
+                });
 
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file); 
                 
                 const btnRemove = document.createElement('button');
-                btnRemove.type = 'button';
-                btnRemove.classList.add('btn-remove');
-                btnRemove.textContent = 'X';
+                btnRemove.type = 'button'; btnRemove.classList.add('btn-remove');
+                btnRemove.innerHTML = `<svg class="trash-svg" viewBox="0 0 24 24"><use href="#trashIcon"></use></svg>`;
                 
-                btnRemove.addEventListener('click', () => {
-                    listaFotosAcumuladas.splice(index, 1);
-                    renderizarMosaico();
-                    actualizarInterfazContador();
+                btnRemove.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    listaFotosAcumuladas.splice(index, 1); renderizarMosaico(); actualizarInterfazContador();
                 });
-
-                item.appendChild(img);
-                item.appendChild(btnRemove);
-                previewGrid.appendChild(item);
+                
+                item.appendChild(img); item.appendChild(btnRemove); previewGrid.appendChild(item);
             });
         }
 
-        clearBtn.addEventListener('click', function() {
-            listaFotosAcumuladas = [];
-            renderizarMosaico();
-            actualizarInterfazContador();
-        });
+        clearBtn.addEventListener('click', function() { listaFotosAcumuladas = []; renderizarMosaico(); actualizarInterfazContador(); });
 
         function actualizarInterfazContador() {
             const cantidad = listaFotosAcumuladas.length;
             clearBtn.style.display = cantidad > 0 ? 'inline-block' : 'none';
-
             if (cantidad > 0) {
                 counterText.textContent = `Fotos acumuladas: ${cantidad} / 30`;
-                fileCounter.className = "file-counter ready";
-                submitBtn.disabled = false;
+                fileCounter.className = "file-counter ready"; submitBtn.disabled = false;
             } else {
                 counterText.textContent = `Fotos acumuladas: 0 / 30`;
-                fileCounter.className = "file-counter error";
-                submitBtn.disabled = true;
+                fileCounter.className = "file-counter error"; submitBtn.disabled = true;
             }
         }
 
-        // --- FUNCIÓN INTEGRADA DE OPTIMIZACIÓN Y COMPRESIÓN ULTRA RÁPIDA (AL 85%) ---
         function optimizarYComprimirFoto(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
+                    const img = new Image(); img.src = event.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-                        
-                        // Límite máximo de resolución equilibrado para mantener nitidez
+                        let width = img.width; let height = img.height;
                         const MAX_MEDIDA = 2000; 
-
-                        if (width > height) {
-                            if (width > MAX_MEDIDA) {
-                                height *= MAX_MEDIDA / width;
-                                width = MAX_MEDIDA;
-                            }
-                        } else {
-                            if (height > MAX_MEDIDA) {
-                                width *= MAX_MEDIDA / height;
-                                height = MAX_MEDIDA;
-                            }
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-
-                        // Compresión calibrada al 85% en formato JPEG para rendimiento óptimo
+                        if (width > height) { if (width > MAX_MEDIDA) { height *= MAX_MEDIDA / width; width = MAX_MEDIDA; } } 
+                        else { if (height > MAX_MEDIDA) { width *= MAX_MEDIDA / height; height = MAX_MEDIDA; } }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
                         const dataUrl = canvas.toDataURL('image/jpeg', 0.85); 
-                        
                         resolve({
-                            nombre: file.name.replace(/\.[^/.]+$/, "") + ".jpg", // Guardamos como .jpg optimizado
+                            nombre: file.name.replace(/\.[^/.]+$/, "") + ".jpg",
                             mimeType: 'image/jpeg',
                             bytes: dataUrl.split(',')[1]
                         });
@@ -483,8 +492,6 @@
             try {
                 for (let i = 0; i < totalFotos; i++) {
                     loadingText.textContent = `Subiendo foto ${i + 1} de ${totalFotos}...`;
-                    
-                    // Comprimimos la foto en tiempo récord antes de mandarla
                     const fotoProcesada = await optimizarYComprimirFoto(listaFotosAcumuladas[i]);
 
                     const payloadIndividual = {
@@ -500,30 +507,23 @@
                         body: JSON.stringify(payloadIndividual)
                     });
                     
-                    if (!respuesta.ok) {
-                        throw new Error("Error en el servidor de Google.");
-                    }
-
+                    if (!respuesta.ok) { throw new Error("Error en el servidor de Google."); }
                     let porcentajeProgreso = ((i + 1) / totalFotos) * 100;
                     realProgressBar.style.width = `${porcentajeProgreso}%`;
                 }
 
-                mostrarAlerta('¡Envío Exitoso!', `¡Excelente! Los datos de ${alumno} y sus ${totalFotos} fotos comprimidas se guardaron correctamente en la subcarpeta asignada.`);
-                form.reset();
-                listaFotosAcumuladas = [];
-                renderizarMosaico();
-                actualizarInterfazContador();
-
+                // --- 🌟 NUEVO TEXTO ESCOLAR CÁLIDO Y EMOCIONAL 🌟 ---
+                mostrarAlerta(
+                    '¡Recibimos todo impecable! ❤️', 
+                    `¡Excelente! Las ${totalFotos} fotitos para homenajear a "${tutor}" ya se guardaron de manera segura en nuestro taller de diseño.\n\n` +
+                    `Ahora nos ponemos manos a la obra junto a la escuela para armar un regalo espectacular de parte de ${alumno} (${grado}). Nos estaremos comunicando con vos si es necesario coordinar algún detalle. ¡Gracias por confiar en nosotros para este día tan especial!`
+                );
+                
+                form.reset(); listaFotosAcumuladas = []; renderizarMosaico(); actualizarInterfazContador();
             } catch (error) {
                 console.error(error);
-                mostrarAlerta(
-                    'Error de Envío', 
-                    'No se pudo completar la carga. Verificá los accesos públicos de tu Script.'
-                );
-            } finally {
-                overlay.style.display = 'none';
-                submitBtn.disabled = false;
-            }
+                mostrarAlerta('Error de Envío', 'No se pudo completar la carga. Por favor intentá nuevamente.');
+            } finally { overlay.style.display = 'none'; submitBtn.disabled = false; }
         });
     </script>
 </body>
